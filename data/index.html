@@ -72,11 +72,6 @@
                 flex-direction: column !important;
             }
 
-            header div code {
-                align-self: normal !important;
-            }
-
-
             #info_logo {
                 display: none !important;
             }
@@ -99,6 +94,14 @@
 
             #arrow_vertical {
                 display: block !important;
+            }
+
+            #scc_logo {
+                display: none !important;
+            }
+
+            #scc_logo_footer {
+                display: flex !important;
             }
         }
 
@@ -177,6 +180,41 @@
 
         header {
             margin: 5vh 6.5vw;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 2em;
+        }
+
+        #header_text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #scc_logo {
+            height: auto;
+            width: clamp(8em, 20%, 16em);
+            flex-shrink: 1;
+            align-self: center;
+        }
+
+        #scc_logo_footer {
+            display: none;
+            justify-content: center;
+            padding: 4vh 6.5vw 6vh;
+        }
+
+        #scc_logo_footer img {
+            height: 2.5em;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            #scc_logo,
+            #scc_logo_footer img {
+                background: white;
+                border-radius: 4px;
+                padding: 4px 10px;
+            }
         }
 
         header div {
@@ -186,12 +224,6 @@
 
         header div h3 {
             flex-grow: 1;
-        }
-
-        header div code {
-            font-size: 0.8em;
-            align-self: flex-end;
-            line-break: anywhere;
         }
 
         main {
@@ -297,34 +329,13 @@
 
 <body>
     <header>
-        <h1>Error {{ status_code }}</h1>
-        <div>
-            <h3>{{ status_text | escape }}</h3>
-            <code>
-                <script>
-                    var name = "{{ env['PROXY_NAME'] }}"
-                    var code = "{{ status_code }}"
-
-                    var info = [];
-
-                    info.push("Router:   " + name);
-                    info.push("Status:   " + code);
-                    info.push("Location: " + window.location.hostname);
-
-                    var trace = info.join("\n");
-
-                    if (trace) {
-                        document.write('Trace-' + btoa(trace));
-                    }
-                    else {
-                        document.write('Trace string cannot be displayed');
-                    }
-                </script>
-                <noscript>
-                    Trace string cannot be displayed because Javascript is disabled
-                </noscript>
-            </code>
+        <div id="header_text">
+            <h1>Error {{ status_code }}</h1>
+            <div>
+                <h3>{{ status_text | escape }}</h3>
+            </div>
         </div>
+        <img id="scc_logo" src="scc_logo.svg" alt="SCC">
     </header>
 
     <svg id="assets" width="0" height="0" viewBox="0 0 100 100">
@@ -469,13 +480,11 @@
                     {{ env['PROXY_SUPPORT_MAIL'] | escape }}
                 </a>
             </div>
-            <div id="info_logo">
-                <svg height="7.5em" width="7.5em" viewBox="0 0 100 100">
-                    <use href="#icon_help" />
-                </svg>
-            </div>
         </div>
     </footer>
+    <div id="scc_logo_footer">
+        <img src="scc_logo.svg" alt="SCC">
+    </div>
 </body>
 
 </html>
